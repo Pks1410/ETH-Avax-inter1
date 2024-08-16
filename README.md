@@ -1,96 +1,49 @@
-# Functions and Errors: Member 
+# MPEligibility Smart Contract
+# Introduction
+The MPEligibility smart contract is designed to verify whether an individual meets the basic eligibility criteria to become a Member of Parliament (MP) in India. The contract checks the age and citizenship status of the individual, ensuring compliance with the constitutional requirements.
 
-This project demonstrates the use of assert(), revert(), and require() statements in Solidity.
+# Key Features
+* Minimum Age Requirement: Ensures that the individual is at least 25 years old.
+* Citizenship Check: Verifies that the individual is an Indian citizen.
+* Eligibility Verification: Provides a straightforward function to determine eligibility based on the above criteria.
+# Contract Structure
+1) minimumAge Constant: Represents the minimum age required to become a Member of Parliament in India.
+2) checkEligibility Function:
+* age: The age of the individual (must be of type uint8).
+* isIndian: A boolean indicating whether the individual is an Indian citizen.
+* Returns: A string message indicating whether the individual is eligible to be a Member of Parliament.
+# Functionality:
+* Citizenship Check: Uses require to ensure that the individual is an Indian citizen. If not, it throws an error message: "You must be an Indian citizen."
+* Age Check: If the individual's age is less than 25, it uses revert to return an error message: "Not eligible to be a Member of Parliament."
+* Assertion: Confirms that the age is indeed greater than or equal to 25 using assert.
+* Eligibility Message: If both checks pass, it returns the message: "Eligible to be a Member of Parliament."
+# Deploying the Contract
+* Deploy the MPEligibility contract on an Ethereum-compatible blockchain.
+* Once deployed, the contract can be used to verify eligibility by calling the checkEligibility function.
 
-## Description
+To check if an individual is eligible to become a Member of Parliament, call the checkEligibility function with the required parameters:
 
-The contract "ErrorHandling" checks the age eligibility for applying for a passport in different countries using require, assert, and revert statements.
+```shell
+checkEligibility(uint8 age, bool isIndian)
+```
+Example: To check the eligibility of a 30-year-old Indian citizen, you would call:
+```shell
+checkEligibility(30, true)
+```
+Possible Outcomes:
+* If the individual is not an Indian citizen, the function will revert with "You must be an Indian citizen."
+* If the individual is younger than 25, the function will revert with "Not eligible to be a Member of Parliament."
+* If the individual meets both criteria, the function will return "Eligible to be a Member of Parliament."
 
-* The structure and the array for storing Country Age Eligblity for Passport using constructor:
-  solidity
-  struct ContuntryAgeEligibility {
-        string country;
-        uint age;
-    }
-    ContuntryAgeEligibility[] public countryAgeEligibility;
-    constructor() {
-        countryAgeEligibility.push(ContuntryAgeEligibility("IND", 18));
-        countryAgeEligibility.push(ContuntryAgeEligibility("USA", 16));
-        countryAgeEligibility.push(ContuntryAgeEligibility("AUS", 12));
-    }
-  
-
-* require() Statement
-
-The require() statement is used to validate inputs and conditions before execution. If the condition is false, it reverts the transaction with an optional error message, saving gas.
-
-solidity
-function passportAcceptanceRequire(string memory _country, uint _age) public view returns(string memory) {
-    for(uint i = 0; i < countryAgeEligibility.length; i++) {
-        if(keccak256(abi.encodePacked(countryAgeEligibility[i].country)) == keccak256(abi.encodePacked(_country))) {
-            require(_age >= countryAgeEligibility[i].age, "Passport Rejected you are too young to apply");
-            return "Passport Accepted";
-        }
-    }
-    return "Country not found";
-}
-
-
-* assert() Statement
-
-The assert() statement is used to check for conditions that should never be false. If the condition is false, it uses up all gas and reverts the transaction.
-
-solidity
-function passportAcceptanceAssert(string memory _country, uint _age) public view returns(string memory) {
-    for(uint i = 0; i < countryAgeEligibility.length; i++) {
-        if(keccak256(abi.encodePacked(countryAgeEligibility[i].country)) == keccak256(abi.encodePacked(_country))) {
-            assert(_age >= countryAgeEligibility[i].age);
-            return "Passport Accepted";
-        }
-    }
-    return "Country not found";
-}
-
-
-* revert() Statement
-
-The revert() statement is used to flag an error and revert the transaction with an optional error message.
-
-solidity
-function passportAcceptanceRevert(string memory _country, uint _age) public view returns(string memory) {
-    for(uint i = 0; i < countryAgeEligibility.length; i++) {
-        if(keccak256(abi.encodePacked(countryAgeEligibility[i].country)) == keccak256(abi.encodePacked(_country))) {
-            if(_age >= countryAgeEligibility[i].age) {
-                return "Passport Accepted";
-            } else {
-                revert("Passport Rejected You are too young to apply");
-            }
-        }
-    }
-    return "Country not found";
-}
-
-
-* Show Country Names
-
-The showCountryName() function returns a string of all country names in the eligibility list.
-
-solidity
-function showCountryName() public view returns(string memory) {
-    string memory countries;
-    for(uint i = 0; i < countryAgeEligibility.length; i++) {
-        countries = string(abi.encodePacked(countries, countryAgeEligibility[i].country, " "));
-    }
-    return countries;
-}
-
+# use of functions
+* require: Ensures the individual is an Indian citizen.
+* revert: Stops execution and provides an error message if the individual’s age is below the required minimum.
+* assert: Validates that the age is at least 25, ensuring the logic flow is correct.
 
 ## Authors
 
-- Name: Vibhansh Alok
-- MetacrafterID: RuffledZest (vibhanshalok@gmail.com)
-- Loom Video Link: https://www.loom.com/share/ee7a9ed81b5a453eae283438b1ca42e6
+- Name: Prakhar Sahu
+- MetacrafterID: Prakhar1410 (1410sahu.prakhar@gmail.com)
+- Loom Video Link: https://www.loom.com/share/60fd459135ba4852a27cef5a7b93cd63?sid=831c6ceb-8943-40fb-98fa-2544d5b74ab0
 
-## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details.
